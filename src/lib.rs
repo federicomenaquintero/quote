@@ -67,6 +67,9 @@ pub use tokens::Tokens;
 mod to_tokens;
 pub use to_tokens::{ToTokens, ByteStr};
 
+mod spanless_eq;
+pub use spanless_eq::{SpanlessEq, spanless_eq};
+
 pub mod __rt {
     pub use proc_macro2::*;
 

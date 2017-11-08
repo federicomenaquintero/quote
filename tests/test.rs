@@ -357,3 +357,19 @@ fn test_closure() {
     let tokens = quote! { #(#fields)* };
     assert_eq!("__field0 __field1 __field2", tokens.to_string());
 }
+
+#[test]
+fn empty_tokens_are_equal() {
+    assert!(quote::spanless_eq(
+        &quote! { },
+        &quote! { },
+    ));
+}
+
+#[test]
+fn single_tokens_are_equal() {
+    assert!(quote::spanless_eq(
+        &quote! { 42 },
+        &quote! { 42 },
+    ));
+}

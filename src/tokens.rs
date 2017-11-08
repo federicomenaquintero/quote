@@ -5,10 +5,34 @@ use proc_macro;
 use proc_macro2::{TokenStream, TokenTree, TokenNode, Term, Span};
 use proc_macro2::Delimiter;
 
+use spanless_eq::SpanlessEq;
+
 /// Tokens produced by a `quote!(...)` invocation.
 #[derive(Clone)]
 pub struct Tokens {
     tts: Vec<TokenTree>,
+}
+
+impl SpanlessEq for Tokens {
+    fn spanless_eq(a: &Self, b: &Self) -> bool {
+        if a.tts.len() != b.tts.len() {
+            return false;
+        }
+
+        let mut zip = a.tts.iter().zip(b.tts.iter());
+
+        while let Some((tt_a, tt_b)) = zip.next() {
+            if !token_node_spanless_eq(&tt_a.kind, &tt_b.kind) {
+                return false;
+            }
+        }
+
+        true
+    }
+}
+
+fn token_node_spanless_eq(tn_a: &TokenNode, tn_b: &TokenNode) -> bool {
+    return false;
 }
 
 impl Tokens {
